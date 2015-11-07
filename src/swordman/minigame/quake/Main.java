@@ -6,6 +6,7 @@ public class Main extends JavaPlugin {
 
 	public void onEnable() {
 		getLogger().info("The plugin has been enabled!");
+		new Events(this);
 		
 	}
 	public void onDisable() {
