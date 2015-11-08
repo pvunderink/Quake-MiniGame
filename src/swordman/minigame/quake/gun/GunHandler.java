@@ -86,8 +86,7 @@ public class GunHandler {
 			         fwm.addEffect(effect);
 			         fwm.setPower(1);
 			         fw.setFireworkMeta(fwm);
-			         if (fw.getTicksLived() == 20) {
-			     }
+			         fw.remove();
 			    }
 			   }
 			   }
