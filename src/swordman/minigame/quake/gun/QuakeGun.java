@@ -13,13 +13,13 @@ public enum QuakeGun {
 
 	WOOD(1.3, 2.0, ChatColor.GREEN + "Basic Gun", Material.WOOD_HOE), IRON(1.1, 2.5, ChatColor.DARK_PURPLE + "Super Gun", Material.IRON_HOE), GOLD(0.9, 3.0, ChatColor.GOLD + "Golden Gun", Material.GOLD_HOE);
 
-	double reloadTime;
-	double walkSpeed;
+	final double reloadTime;
+	final double walkSpeed;
 	
-	String name;
-	Material material;
+	final String name;
+	final Material material;
 
-	QuakeGun(double reloadTime, double walkSpeed, String name, Material material) {
+	QuakeGun(final double reloadTime, final double walkSpeed, final String name, final Material material) {
 		this.reloadTime = reloadTime;
 		this.walkSpeed = walkSpeed;
 		this.name = name;

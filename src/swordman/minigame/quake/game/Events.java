@@ -15,7 +15,7 @@ public class Events implements Listener {
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent ev) {
-		Player p = ev.getPlayer();
+		final Player p = ev.getPlayer();
 		
 		// TODO check the player's gun to adjust speed
 	}

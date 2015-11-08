@@ -7,18 +7,18 @@ import swordman.minigame.api.player.PlayerHandler;
 
 public class QuakeMap {
 	
-	Arena arena;
+	final Arena arena;
 	
-	public QuakeMap(Arena arena) {
+	public QuakeMap(final Arena arena) {
 		this.arena = arena;
 	}
 	
-	public void join(Player p) {
+	public void join(final Player p) {
 		PlayerHandler.joinArena(p, arena);
 	}
 	
 	@Deprecated
-	public void leave(Player p) {
+	public void leave(final Player p) {
 		PlayerHandler.leaveArena(p);
 	}
 
