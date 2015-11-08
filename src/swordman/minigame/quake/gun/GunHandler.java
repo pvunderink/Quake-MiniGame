@@ -31,8 +31,9 @@ public class GunHandler {
 
 	public static QuakeGun gunInHand(final Player p) {
 		for (final QuakeGun gun : QuakeGun.values())
-			if (p.getItemInHand().isSimilar(gun.getItemStack()))
+			if (p.getItemInHand().isSimilar(gun.getItemStack())) {
 				return gun;
+			}
 
 		return null;
 	}
