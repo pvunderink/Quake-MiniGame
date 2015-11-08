@@ -10,17 +10,19 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public enum QuakeGun {
 
-	GOLD(0.9, 3.0, ChatColor.GOLD + "Golden Gun", Material.GOLD_HOE), IRON(1.1, 2.5, ChatColor.DARK_PURPLE + "Super Gun", Material.IRON_HOE), WOOD(1.3, 2.0, ChatColor.GREEN + "Basic Gun", Material.WOOD_HOE);
+	GOLD("golden_gun", 0.9f, 3.0f, ChatColor.GOLD + "Golden Gun", Material.GOLD_HOE), IRON("super_gun", 1.1f, 2.5f, ChatColor.DARK_PURPLE + "Super Gun", Material.IRON_HOE), WOOD("basic_gun", 1.3f, 2.0f, ChatColor.GREEN + "Basic Gun", Material.WOOD_HOE);
 
 	private final Material material;
 	private final String name;
+	
+	final String id;
+	final float reloadTime;
+	final float walkSpeed;
 
-	final double reloadTime;
-	final double walkSpeed;
-
-	QuakeGun(final double reloadTime, final double walkSpeed, final String name, final Material material) {
+	QuakeGun(final String id, final float reloadTime, final float walkSpeed, final String name, final Material material) {
 		this.reloadTime = reloadTime;
 		this.walkSpeed = walkSpeed;
+		this.id = id;
 		this.name = name;
 		this.material = material;
 	}
@@ -41,12 +43,21 @@ public enum QuakeGun {
 
 		return result;
 	}
+	
+	public static QuakeGun getById(String id) {
+		for (QuakeGun gun : values()) {
+			if (gun.id.equalsIgnoreCase(id)) {
+				return gun;
+			}
+		}
+		return null;
+	}
 
-	public double getReloadTime() {
+	public float getReloadTime() {
 		return this.reloadTime;
 	}
 
-	public double getWalkSpeed() {
+	public float getWalkSpeed() {
 		return this.walkSpeed;
 	}
 

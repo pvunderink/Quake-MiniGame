@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import swordman.minigame.quake.commands.GunCommand;
 import swordman.minigame.quake.game.Events;
 
 public class Main extends JavaPlugin {
@@ -25,6 +26,8 @@ public class Main extends JavaPlugin {
 				Bukkit.getPluginManager().disablePlugin(this);
 			}
 		}
+		
+		getCommand("quakegun").setExecutor(new GunCommand());
 
 		this.getLogger().info("All dependencies were found and enabled");
 
