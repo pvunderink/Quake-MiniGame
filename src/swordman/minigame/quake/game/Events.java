@@ -8,15 +8,15 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import swordman.minigame.quake.Main;
 
 public class Events implements Listener {
-	
-	public Events(Main main) {
+
+	public Events(final Main main) {
 		main.getServer().getPluginManager().registerEvents(this, main);
 	}
-	
+
 	@EventHandler
-	public void onMove(PlayerMoveEvent ev) {
+	public void onMove(final PlayerMoveEvent ev) {
 		final Player p = ev.getPlayer();
-		
+
 		// TODO check the player's gun to adjust speed
 	}
 

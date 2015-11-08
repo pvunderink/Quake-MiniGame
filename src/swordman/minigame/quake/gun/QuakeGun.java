@@ -11,13 +11,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public enum QuakeGun {
 
-	WOOD(1.3, 2.0, ChatColor.GREEN + "Basic Gun", Material.WOOD_HOE), IRON(1.1, 2.5, ChatColor.DARK_PURPLE + "Super Gun", Material.IRON_HOE), GOLD(0.9, 3.0, ChatColor.GOLD + "Golden Gun", Material.GOLD_HOE);
+	GOLD(0.9, 3.0, ChatColor.GOLD + "Golden Gun", Material.GOLD_HOE), IRON(1.1, 2.5, ChatColor.DARK_PURPLE + "Super Gun", Material.IRON_HOE), WOOD(1.3, 2.0, ChatColor.GREEN + "Basic Gun", Material.WOOD_HOE);
+
+	private final Material material;
+	private final String name;
 
 	final double reloadTime;
 	final double walkSpeed;
-	
-	final String name;
-	final Material material;
 
 	QuakeGun(final double reloadTime, final double walkSpeed, final String name, final Material material) {
 		this.reloadTime = reloadTime;
@@ -25,30 +25,30 @@ public enum QuakeGun {
 		this.name = name;
 		this.material = material;
 	}
-	
-	public double getReloadTime() {
-		return reloadTime;
-	}
-	
-	public double getWalkSpeed() {
-		return walkSpeed;
-	}
 
 	public ItemStack getItemStack() {
-		ItemStack result = new ItemStack(material);			
-		
-		List<String> desc = new ArrayList<String>(); 			
-		desc.add(ChatColor.GRAY + "Reload time: " + ChatColor.GREEN + reloadTime);
-		desc.add(ChatColor.GRAY + "Walk speed: " + ChatColor.GREEN + walkSpeed);
-		
-		ItemMeta meta = result.getItemMeta();
-		
-		meta.setDisplayName(name);
+		final ItemStack result = new ItemStack(this.material);
+
+		final List<String> desc = new ArrayList<String>();
+		desc.add(ChatColor.GRAY + "Reload time: " + ChatColor.GREEN + this.reloadTime);
+		desc.add(ChatColor.GRAY + "Walk speed: " + ChatColor.GREEN + this.walkSpeed);
+
+		final ItemMeta meta = result.getItemMeta();
+
+		meta.setDisplayName(this.name);
 		meta.setLore(desc);
-		
+
 		result.setItemMeta(meta);
-		
+
 		return result;
 	}
-	
+
+	public double getReloadTime() {
+		return this.reloadTime;
+	}
+
+	public double getWalkSpeed() {
+		return this.walkSpeed;
+	}
+
 }

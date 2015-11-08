@@ -10,39 +10,40 @@ public class Main extends JavaPlugin {
 
 	public static Plugin plugin;
 
-	public void onEnable() {
-		if (!checkDependencies()) {
-			return;
-		}
-		
-		plugin = this;
-
-		getLogger().info(String.format("%s has been enabled!", getDescription().getName()));
-		new Events(this);
-	}
-
-	public void onDisable() {
-		getLogger().info(String.format("%s has been disabled!", getDescription().getName()));
-	}
-
 	public boolean checkDependencies() {
-		for (String s : this.getDescription().getDepend()) {
+		for (final String s : this.getDescription().getDepend()) {
 			final Plugin p = Bukkit.getPluginManager().getPlugin(s);
-		
+
 			if (p != null) {
 				if (!p.isEnabled()) {
 					Bukkit.getPluginManager().enablePlugin(p);
-					getLogger().info(String.format("Dependency (%s) was not enabled. Enabling %s...", s, s));
-				}				
+					this.getLogger().info(String.format("Dependency (%s) was not enabled. Enabling %s...", s, s));
+				}
 			} else {
-				getLogger().severe(String.format("Dependency (%s) was not found. Disabling %s...", s, getDescription().getName()));
-				
+				this.getLogger().severe(String.format("Dependency (%s) was not found. Disabling %s...", s, this.getDescription().getName()));
+
 				Bukkit.getPluginManager().disablePlugin(this);
 			}
 		}
-		
-		getLogger().info("All dependencies were found and enabled");
-		
+
+		this.getLogger().info("All dependencies were found and enabled");
+
 		return true;
+	}
+
+	@Override
+	public void onDisable() {
+		this.getLogger().info(String.format("%s has been disabled!", this.getDescription().getName()));
+	}
+
+	@Override
+	public void onEnable() {
+		if (!this.checkDependencies())
+			return;
+
+		plugin = this;
+
+		this.getLogger().info(String.format("%s has been enabled!", this.getDescription().getName()));
+		new Events(this);
 	}
 }
