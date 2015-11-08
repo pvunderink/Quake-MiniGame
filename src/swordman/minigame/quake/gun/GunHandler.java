@@ -3,21 +3,32 @@ package swordman.minigame.quake.gun;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.FireworkEffect;
+import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitTask;
 
 import swordman.minigame.quake.Main;
+import swordman.minigame.quake.gun.QuakeGun;
 
 public class GunHandler {
 
 	private static List<String> reloaded = new ArrayList<String>();
 
 	public static void giveGun(final Player p) {
+		p.getInventory().addItem(QuakeGun.WOOD.getItemStack());
+		p.getInventory().addItem(QuakeGun.IRON.getItemStack());
+		p.getInventory().addItem(QuakeGun.GOLD.getItemStack());
 		// TODO create an item to put in the players inventory with a fancy name, description and metadata key
 
 		// set metadata:
@@ -28,6 +39,9 @@ public class GunHandler {
 		// TODO check if the item in the player's hand is a gun (using metadata) and return the type of the gun or null
 
 		for (final QuakeGun gun : QuakeGun.values()) {
+			if (p.getItemInHand().isSimilar(gun.getItemStack())) {
+				
+			}
 			// compare item in hand to gun
 			// use: item.isSimilar(otherItem)
 		}
@@ -47,11 +61,36 @@ public class GunHandler {
 			transparent.add(Material.AIR); // Materials that are considered transparent and you can shoot through
 			transparent.add(Material.WATER);
 
-			final List<Block> blocks = p.getLineOfSight(transparent, 100);
+			final int distance = 100;
+			   
+			   final List<Block> blocks = p.getLineOfSight(transparent, distance);
 
-			for (final Block b : blocks) {
-				// TODO check for players at the location of the block and kill them. Particle effect/ firework is also created here.
-			}
+			   final List<Entity> entities = p.getNearbyEntities(distance, distance, distance);
+			   
+			   for (Entity en : entities) {
+			    if (!(en instanceof Player)) {
+			     entities.remove(en);
+			    }
+			   }
+			   
+			   for (final Block b : blocks) {
+			    for (final Entity en : entities) {
+			     if (en.getLocation().distance(b.getLocation()) < 0.3) {
+			      ((Player) en).setHealth(0);
+			      Firework fw = (Firework) b.getWorld().spawnEntity(b.getLocation(), EntityType.FIREWORK);
+			         FireworkMeta fwm = fw.getFireworkMeta();
+			         Random r = new Random();
+			         Type type = Type.BALL;
+			         type = Type.BURST;
+			         FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).with(type).trail(r.nextBoolean()).build();
+			         fwm.addEffect(effect);
+			         fwm.setPower(1);
+			         fw.setFireworkMeta(fwm);
+			         if (fw.getTicksLived() == 20) {
+			     }
+			    }
+			   }
+			   }
 
 			reloaded.remove(p.getName());
 			reload(p, gun.reloadTime);
