@@ -3,3 +3,8 @@ version: 1.0
 main: swordman.minigame.quake.main
 authors: [DevPeppi, kasteelheertje]
 depend: [MinigameAPI]
+
+commands:
+    quakegun:
+        aliases:
+        - gun

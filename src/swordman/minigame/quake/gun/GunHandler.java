@@ -25,26 +25,14 @@ public class GunHandler {
 
 	private static List<String> reloaded = new ArrayList<String>();
 
-	public static void giveGun(final Player p) {
-		p.getInventory().addItem(QuakeGun.WOOD.getItemStack());
-		p.getInventory().addItem(QuakeGun.IRON.getItemStack());
-		p.getInventory().addItem(QuakeGun.GOLD.getItemStack());
-		// TODO create an item to put in the players inventory with a fancy name, description and metadata key
-
-		// set metadata:
-		// item.setMetadata("Data Name", new FixedMetadataValue(Main.plugin, "Data Value"));
+	public static void giveGun(final Player p, final QuakeGun gun) {
+		p.getInventory().addItem(gun.getItemStack());
 	}
 
 	public static QuakeGun gunInHand(final Player p) {
-		// TODO check if the item in the player's hand is a gun (using metadata) and return the type of the gun or null
-
-		for (final QuakeGun gun : QuakeGun.values()) {
-			if (p.getItemInHand().isSimilar(gun.getItemStack())) {
-				
-			}
-			// compare item in hand to gun
-			// use: item.isSimilar(otherItem)
-		}
+		for (final QuakeGun gun : QuakeGun.values())
+			if (p.getItemInHand().isSimilar(gun.getItemStack()))
+				return gun;
 
 		return null;
 	}
@@ -62,34 +50,30 @@ public class GunHandler {
 			transparent.add(Material.WATER);
 
 			final int distance = 100;
-			   
-			   final List<Block> blocks = p.getLineOfSight(transparent, distance);
 
-			   final List<Entity> entities = p.getNearbyEntities(distance, distance, distance);
-			   
-			   for (Entity en : entities) {
-			    if (!(en instanceof Player)) {
-			     entities.remove(en);
-			    }
-			   }
-			   
-			   for (final Block b : blocks) {
-			    for (final Entity en : entities) {
-			     if (en.getLocation().distance(b.getLocation()) < 0.3) {
-			      ((Player) en).setHealth(0);
-			      Firework fw = (Firework) b.getWorld().spawnEntity(b.getLocation(), EntityType.FIREWORK);
-			         FireworkMeta fwm = fw.getFireworkMeta();
-			         Random r = new Random();
-			         Type type = Type.BALL;
-			         type = Type.BURST;
-			         FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).with(type).trail(r.nextBoolean()).build();
-			         fwm.addEffect(effect);
-			         fwm.setPower(1);
-			         fw.setFireworkMeta(fwm);
-			         fw.remove();
-			    }
-			   }
-			   }
+			final List<Block> blocks = p.getLineOfSight(transparent, distance);
+
+			final List<Entity> entities = p.getNearbyEntities(distance, distance, distance);
+
+			for (final Entity en : entities)
+				if (!(en instanceof Player))
+					entities.remove(en);
+
+			for (final Block b : blocks)
+				for (final Entity en : entities)
+					if (en.getLocation().distance(b.getLocation()) < 0.3) {
+						((Player) en).setHealth(0);
+
+						final Firework fw = (Firework) b.getWorld().spawnEntity(b.getLocation(), EntityType.FIREWORK);
+						final FireworkMeta fwm = fw.getFireworkMeta();
+						final Random r = new Random();
+						Type type = Type.BALL;
+						type = Type.BURST;
+						final FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).with(type).trail(r.nextBoolean()).build();
+						fwm.addEffect(effect);
+						fwm.setPower(1);
+						fw.setFireworkMeta(fwm);
+					}
 
 			reloaded.remove(p.getName());
 			reload(p, gun.reloadTime);
