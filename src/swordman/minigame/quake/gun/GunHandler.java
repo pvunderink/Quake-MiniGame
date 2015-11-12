@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
@@ -61,12 +62,14 @@ public class GunHandler {
 			final List<Block> blocks = p.getLineOfSight(transparent, distance);
 
 			final List<Entity> entities = p.getNearbyEntities(distance, distance, distance);
-
-			for (final Entity en : entities)
-				if (!(en instanceof LivingEntity)) {
-					entities.remove(en);
-					p.sendMessage("removed!!" + en.getType().toString());
-				}
+			
+			for (int i = 0; i < entities.size(); i++) {
+			    Entity en = entities.get(i);
+			    if (!(en instanceof LivingEntity)) {
+			     entities.remove(en);
+			     p.sendMessage("removed!!" + en.getType().toString());
+			    }
+			   }
 
 			for (final Block b : blocks)
 				for (final Entity en : entities)
@@ -79,7 +82,7 @@ public class GunHandler {
 						final Random r = new Random();
 						Type type = Type.BALL;
 						type = Type.BURST;
-						final FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).with(type).trail(r.nextBoolean()).build();
+						final FireworkEffect effect = FireworkEffect.builder().withColor(Color.MAROON).flicker(r.nextBoolean()).with(type).trail(r.nextBoolean()).build();
 						fwm.addEffect(effect);
 						fwm.setPower(1);
 						fw.setFireworkMeta(fwm);
