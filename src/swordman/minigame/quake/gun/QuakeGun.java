@@ -10,16 +10,16 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public enum QuakeGun {
 
-	GOLD("golden_gun", 0.9f, 3.0f, ChatColor.GOLD + "Golden Gun", Material.GOLD_HOE), IRON("super_gun", 1.1f, 2.5f, ChatColor.DARK_PURPLE + "Super Gun", Material.IRON_HOE), WOOD("basic_gun", 1.3f, 2.0f, ChatColor.GREEN + "Basic Gun", Material.WOOD_HOE);
+	GOLD("golden_gun", 0.9f, 3, ChatColor.GOLD + "Golden Gun", Material.GOLD_HOE), IRON("super_gun", 1.1f, 2, ChatColor.DARK_PURPLE + "Super Gun", Material.IRON_HOE), WOOD("basic_gun", 1.3f, 1, ChatColor.GREEN + "Basic Gun", Material.WOOD_HOE);
 
 	private final Material material;
 	private final String name;
 	
 	final String id;
 	final float reloadTime;
-	final float walkSpeed;
+	final int walkSpeed;
 
-	QuakeGun(final String id, final float reloadTime, final float walkSpeed, final String name, final Material material) {
+	QuakeGun(final String id, final float reloadTime, final int walkSpeed, final String name, final Material material) {
 		this.reloadTime = reloadTime;
 		this.walkSpeed = walkSpeed;
 		this.id = id;
@@ -57,7 +57,7 @@ public enum QuakeGun {
 		return this.reloadTime;
 	}
 
-	public float getWalkSpeed() {
+	public int getWalkSpeed() {
 		return this.walkSpeed;
 	}
 

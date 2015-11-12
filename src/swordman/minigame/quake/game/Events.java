@@ -23,11 +23,12 @@ public class Events implements Listener {
 	public void onMove(final PlayerMoveEvent ev) {
 		final Player p = ev.getPlayer();
 
-		if (GunHandler.gunInHand(p) != null) {
-			p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1, 1), false);
+		QuakeGun gun = GunHandler.gunInHand(p);
+		if (gun != null) {
+			p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10, gun.getWalkSpeed()), true);
 		}
 	}
-	
+
 	@EventHandler
 	public void onInteract(final PlayerInteractEvent ev) {
 		if (ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -35,6 +36,7 @@ public class Events implements Listener {
 			if (GunHandler.gunInHand(p) != null) {
 				QuakeGun gun = GunHandler.gunInHand(p);
 				GunHandler.shoot(p, gun);
+
 				ev.setCancelled(true);
 			}
 		}
