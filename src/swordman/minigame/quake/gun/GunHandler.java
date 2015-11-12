@@ -3,7 +3,6 @@ package swordman.minigame.quake.gun;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -51,8 +50,8 @@ public class GunHandler {
 	public static void shoot(final Player p, final QuakeGun gun) {
 		if (reloaded.contains(p.getName()) && gun != null) {
 			reloaded.remove(p.getName());
+			reload(p, gun.reloadTime);
 
-			p.sendMessage("Hello");
 			final Set<Material> transparent = new HashSet<Material>();
 			transparent.add(Material.AIR); // Materials that are considered transparent and you can shoot through
 			transparent.add(Material.WATER);
@@ -62,33 +61,29 @@ public class GunHandler {
 			final List<Block> blocks = p.getLineOfSight(transparent, distance);
 
 			final List<Entity> entities = p.getNearbyEntities(distance, distance, distance);
-			
+
 			for (int i = 0; i < entities.size(); i++) {
-			    Entity en = entities.get(i);
-			    if (!(en instanceof LivingEntity)) {
-			     entities.remove(en);
-			     p.sendMessage("removed!!" + en.getType().toString());
-			    }
-			   }
+				Entity en = entities.get(i);
+				if (!(en instanceof LivingEntity)) {
+					entities.remove(i);
+					p.sendMessage("Removed: " + en.getType().toString());
+				}
+			}
 
 			for (final Block b : blocks)
 				for (final Entity en : entities)
-
-					if (en.getLocation().distance(b.getLocation()) < 1.3) {
+					if (en.getLocation().distance(b.getLocation()) < 1 || (en instanceof Player && ((Player) en).getEyeLocation().distance(b.getLocation()) < 1)) {
 						((LivingEntity) en).setHealth(0);
 
 						final Firework fw = (Firework) b.getWorld().spawnEntity(b.getLocation(), EntityType.FIREWORK);
 						final FireworkMeta fwm = fw.getFireworkMeta();
-						final Random r = new Random();
-						Type type = Type.BALL;
-						type = Type.BURST;
-						final FireworkEffect effect = FireworkEffect.builder().withColor(Color.MAROON).flicker(r.nextBoolean()).with(type).trail(r.nextBoolean()).build();
+						final Type type = Type.BURST;
+						final Color color = Color.MAROON;
+						final FireworkEffect effect = FireworkEffect.builder().withColor(color).flicker(true).with(type).trail(true).build();
 						fwm.addEffect(effect);
 						fwm.setPower(1);
 						fw.setFireworkMeta(fwm);
 					}
-
-			reload(p, gun.reloadTime);
 		}
 	}
 
@@ -112,7 +107,6 @@ public class GunHandler {
 			else {
 				reloaded.add(this.p.getName());
 				this.task.cancel();
-				p.sendMessage("Reloaded");
 			}
 		}
 
