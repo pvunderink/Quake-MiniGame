@@ -70,8 +70,8 @@ public class GunHandler {
 				}
 			}
 
-			for (final Block b : blocks)
-				for (final Entity en : entities)
+			for (final Block b : blocks) {
+				for (final Entity en : entities) {
 					if (en.getLocation().distance(b.getLocation()) < 1 || (en instanceof Player && ((Player) en).getEyeLocation().distance(b.getLocation()) < 1)) {
 						((LivingEntity) en).setHealth(0);
 
@@ -83,6 +83,9 @@ public class GunHandler {
 						fwm.addEffect(effect);
 						fwm.setPower(1);
 						fw.setFireworkMeta(fwm);
+						break;
+					}
+				}
 					}
 		}
 	}
