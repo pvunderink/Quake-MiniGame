@@ -11,6 +11,7 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -55,7 +56,7 @@ public class GunHandler {
 			final Set<Material> transparent = new HashSet<Material>();
 			transparent.add(Material.AIR); // Materials that are considered transparent and you can shoot through
 			transparent.add(Material.WATER);
-			transparent.add(Material.SIGN);	
+			transparent.add(Material.SIGN);
 			transparent.add(Material.WALL_SIGN);
 			transparent.add(Material.SIGN_POST);
 			transparent.add(Material.DEAD_BUSH);
@@ -76,29 +77,26 @@ public class GunHandler {
 			}
 
 			boolean swap = false;
-			
+
 			for (final Block b : blocks) {
 				if (!swap) {
-					swap = true;
-					continue;
+					final Firework fw1 = (Firework) b.getWorld().spawnEntity(b.getLocation(), EntityType.FIREWORK);
+					final FireworkMeta fwm1 = fw1.getFireworkMeta();
+					final Type type1 = Type.BURST;
+					final Color color1 = Color.MAROON;
+					final FireworkEffect effect1 = FireworkEffect.builder().withColor(color1).flicker(true).with(type1).trail(true).build();
+					fwm1.addEffect(effect1);
+					fwm1.setPower(1);
+					fw1.setFireworkMeta(fwm1);
+	
+					fw1.remove();
 				}
-				swap = false;
-								
-				final Firework fw1 = (Firework) b.getWorld().spawnEntity(b.getLocation(), EntityType.FIREWORK);
-				final FireworkMeta fwm1 = fw1.getFireworkMeta();
-				final Type type1 = Type.BURST;
-				final Color color1 = Color.MAROON;
-				final FireworkEffect effect1 = FireworkEffect.builder().withColor(color1).flicker(true).with(type1).trail(true).build();
-				fwm1.addEffect(effect1);
-				fwm1.setPower(1);
-				fw1.setFireworkMeta(fwm1);
-				
+				swap = !swap;
+
 				if (b.getType() == Material.GLASS) {
-					b.breakNaturally();
+					breakBlocks(b);
 				}
-				
-				fw1.remove();
-				
+
 				for (final Entity en : entities) {
 					if (en.getLocation().distance(b.getLocation()) < 1 || (en instanceof Player && ((Player) en).getEyeLocation().distance(b.getLocation()) < 1)) {
 						((LivingEntity) en).setHealth(0);
@@ -143,6 +141,24 @@ public class GunHandler {
 
 		public void setTask(final BukkitTask task) {
 			this.task = task;
+		}
+	}
+	
+	public static void breakBlocks(Block b) {
+		Material m = b.getType();
+		
+		List<BlockFace> faces = new ArrayList<BlockFace>();
+		faces.add(BlockFace.UP);
+		faces.add(BlockFace.DOWN);
+		faces.add(BlockFace.EAST);
+		faces.add(BlockFace.WEST);
+		
+		for (BlockFace face : faces) {
+			Block b1 = b.getRelative(face);
+			if (b1.getType() == m) {
+				b1.breakNaturally();
+				breakBlocks(b);
+			}
 		}
 	}
 
