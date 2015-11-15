@@ -71,6 +71,17 @@ public class GunHandler {
 			}
 
 			for (final Block b : blocks) {
+				final Firework fw1 = (Firework) b.getWorld().spawnEntity(b.getLocation(), EntityType.FIREWORK);
+				final FireworkMeta fwm1 = fw1.getFireworkMeta();
+				final Type type1 = Type.BURST;
+				final Color color1 = Color.MAROON;
+				final FireworkEffect effect1 = FireworkEffect.builder().withColor(color1).flicker(true).with(type1).trail(true).build();
+				fwm1.addEffect(effect1);
+				fwm1.setPower(1);
+				fw1.setFireworkMeta(fwm1);
+				
+				fw1.remove();
+				
 				for (final Entity en : entities) {
 					if (en.getLocation().distance(b.getLocation()) < 1 || (en instanceof Player && ((Player) en).getEyeLocation().distance(b.getLocation()) < 1)) {
 						((LivingEntity) en).setHealth(0);
@@ -83,10 +94,10 @@ public class GunHandler {
 						fwm.addEffect(effect);
 						fwm.setPower(1);
 						fw.setFireworkMeta(fwm);
-						break;
+						return;
 					}
 				}
-					}
+			}
 		}
 	}
 

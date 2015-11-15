@@ -13,16 +13,16 @@ public class GunCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (sender instanceof Player) {
-			Player p = (Player) sender;
-			
+			final Player p = (Player) sender;
+
 			if (args.length > 0) {
 				GunHandler.giveGun(p, QuakeGun.getById(args[0]));
 			} else {
 				GunHandler.giveGun(p, QuakeGun.WOOD);
 			}
 		}
-		
-		return true;
+
+		return true; 
 	}
 
 }

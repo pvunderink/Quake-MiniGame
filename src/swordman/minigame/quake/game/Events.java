@@ -20,25 +20,25 @@ public class Events implements Listener {
 	}
 
 	@EventHandler
-	public void onMove(final PlayerMoveEvent ev) {
-		final Player p = ev.getPlayer();
-
-		QuakeGun gun = GunHandler.gunInHand(p);
-		if (gun != null) {
-			p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10, gun.getWalkSpeed()), true);
-		}
-	}
-
-	@EventHandler
 	public void onInteract(final PlayerInteractEvent ev) {
 		if (ev.getAction() == Action.RIGHT_CLICK_AIR || ev.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			Player p = ev.getPlayer();
+			final Player p = ev.getPlayer();
 			if (GunHandler.gunInHand(p) != null) {
-				QuakeGun gun = GunHandler.gunInHand(p);
+				final QuakeGun gun = GunHandler.gunInHand(p);
 				GunHandler.shoot(p, gun);
 
 				ev.setCancelled(true);
 			}
+		}
+	}
+
+	@EventHandler
+	public void onMove(final PlayerMoveEvent ev) {
+		final Player p = ev.getPlayer();
+
+		final QuakeGun gun = GunHandler.gunInHand(p);
+		if (gun != null) {
+			p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 10, gun.getWalkSpeed()), true);
 		}
 	}
 

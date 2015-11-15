@@ -26,7 +26,7 @@ public class Main extends JavaPlugin {
 				Bukkit.getPluginManager().disablePlugin(this);
 			}
 		}
-		
+
 		getCommand("quakegun").setExecutor(new GunCommand());
 
 		this.getLogger().info("All dependencies were found and enabled");
@@ -49,4 +49,5 @@ public class Main extends JavaPlugin {
 		this.getLogger().info(String.format("%s has been enabled!", this.getDescription().getName()));
 		new Events(this);
 	}
+
 }
