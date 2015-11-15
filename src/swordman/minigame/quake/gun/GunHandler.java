@@ -55,6 +55,12 @@ public class GunHandler {
 			final Set<Material> transparent = new HashSet<Material>();
 			transparent.add(Material.AIR); // Materials that are considered transparent and you can shoot through
 			transparent.add(Material.WATER);
+			transparent.add(Material.SIGN);	
+			transparent.add(Material.WALL_SIGN);
+			transparent.add(Material.SIGN_POST);
+			transparent.add(Material.DEAD_BUSH);
+			transparent.add(Material.STATIONARY_WATER);
+			transparent.add(Material.GLASS);
 
 			final int distance = 100;
 
@@ -66,11 +72,18 @@ public class GunHandler {
 				Entity en = entities.get(i);
 				if (!(en instanceof LivingEntity)) {
 					entities.remove(i);
-					p.sendMessage("Removed: " + en.getType().toString());
 				}
 			}
 
+			boolean swap = false;
+			
 			for (final Block b : blocks) {
+				if (!swap) {
+					swap = true;
+					continue;
+				}
+				swap = false;
+								
 				final Firework fw1 = (Firework) b.getWorld().spawnEntity(b.getLocation(), EntityType.FIREWORK);
 				final FireworkMeta fwm1 = fw1.getFireworkMeta();
 				final Type type1 = Type.BURST;
@@ -79,6 +92,10 @@ public class GunHandler {
 				fwm1.addEffect(effect1);
 				fwm1.setPower(1);
 				fw1.setFireworkMeta(fwm1);
+				
+				if (b.getType() == Material.GLASS) {
+					b.breakNaturally();
+				}
 				
 				fw1.remove();
 				
