@@ -17,6 +17,8 @@ public class QuakeMap {
 
 	public void join(final Player p) {
 		PlayerHandler.joinArena(p, this.arena);
+		this.arena.broadcastMessage(p.getName() + " joined the arena! ("
+				+ arena.getPlayers() + "/16)" );
 	}
 
 	@Deprecated
