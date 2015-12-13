@@ -28,9 +28,9 @@ public class QuakeMap {
 
 		if (arena.getName() == "quake_arena") {
 			if (arena.isFull()) {
-				CountdownTimer Timer = new CountdownTimer(arena, 30,
+				CountdownTimer quaketimer = new CountdownTimer(arena, 30,
 						"The arena will start in:");
-				Timer.run();
+				quaketimer.run();
 			}
 		}
 	}
