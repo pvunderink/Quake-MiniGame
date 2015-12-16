@@ -1,5 +1,6 @@
 package swordman.minigame.quake.map;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import swordman.minigame.api.arena.Arena;
@@ -9,6 +10,7 @@ import swordman.minigame.api.timer.CountdownTimer;
 public class QuakeMap {
 
 	final Arena arena;
+	String message;
 
 	public QuakeMap(final Arena arena) {
 		this.arena = arena;
@@ -18,7 +20,7 @@ public class QuakeMap {
 	public void join(final Player p) {
 		PlayerHandler.joinArena(p, this.arena);
 		this.arena.broadcastMessage(p.getName() + " joined the arena! ("
-				+ arena.getPlayers() + "/16)" );
+				+ arena.getPlayers() + "/16)");
 	}
 
 	@Deprecated
@@ -30,8 +32,12 @@ public class QuakeMap {
 
 		if (arena.getName() == "quake_arena") {
 			if (arena.isFull()) {
+				this.message = ChatColor.BLACK + "[" + ChatColor.DARK_RED
+						+ "%arena%" + "]" + ChatColor.GOLD
+						+ " Game starting in %time% seconds";
+
 				CountdownTimer quaketimer = new CountdownTimer(arena, 30,
-						"The arena will start in:");
+						this.message);
 				quaketimer.run();
 			}
 		}
