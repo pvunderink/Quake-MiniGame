@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitTask;
 
 import swordman.minigame.quake.Main;
+import swordman.minigame.quake.effects.QuakeEffects;
 
 public class GunHandler {
 
@@ -80,16 +81,7 @@ public class GunHandler {
 
 			for (final Block b : blocks) {
 				if (!swap) {
-					final Firework fw1 = (Firework) b.getWorld().spawnEntity(b.getLocation(), EntityType.FIREWORK);
-					final FireworkMeta fwm1 = fw1.getFireworkMeta();
-					final Type type1 = Type.BURST;
-					final Color color1 = Color.MAROON;
-					final FireworkEffect effect1 = FireworkEffect.builder().withColor(color1).flicker(true).with(type1).trail(true).build();
-					fwm1.addEffect(effect1);
-					fwm1.setPower(1);
-					fw1.setFireworkMeta(fwm1);
-	
-					fw1.remove();
+					QuakeEffects.gunShot(b.getLocation());
 				}
 				swap = !swap;
 
@@ -117,7 +109,6 @@ public class GunHandler {
 	}
 
 	private static class ReloadTimer implements Runnable {
-
 		final Player p;
 		BukkitTask task;
 
