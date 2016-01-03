@@ -31,12 +31,12 @@ public class QuakeMap {
 	public void fullArena() {
 
 		if (arena.getName() == "quake_arena") {
-			if (arena.getPlayers().size() == arena.getMax() * 0.80) {
+			if (arena.getPlayers().size() >= arena.getMax() * 0.80) {
 				int minimumplayers = arena.getMin();
 				this.message = ChatColor.BLACK + "[" + ChatColor.DARK_RED
 						+ "%arena%" + "]" + ChatColor.GOLD
 						+ " Game starting in %time% seconds";
-				if (arena.getPlayers().size() >= 2) {
+				if (arena.getPlayers().size() >= minimumplayers) {
 
 				CountdownTimer quaketimer = new CountdownTimer(arena, 30,
 						this.message);
