@@ -36,12 +36,11 @@ public class QuakeMap {
 				this.message = ChatColor.BLACK + "[" + ChatColor.DARK_RED
 						+ "%arena%" + "]" + ChatColor.GOLD
 						+ " Game starting in %time% seconds";
-				if (arena.getPlayers().size() >= minimumplayers) {
 
-				CountdownTimer quaketimer = new CountdownTimer(arena, 30,
-						this.message);
-				quaketimer.run();
-				}
+					CountdownTimer quaketimer = new CountdownTimer(arena, 30,
+							this.message);
+					quaketimer.run();
+					arena.start();
 			}
 		}
 	}

@@ -45,7 +45,8 @@ public class GunHandler {
 
 	public static void reload(final Player p, final float time) {
 		final ReloadTimer timer = new ReloadTimer(p, time);
-		final BukkitTask task = Bukkit.getScheduler().runTaskTimer(Main.plugin, timer, 0L, 1L);
+		final BukkitTask task = Bukkit.getScheduler().runTaskTimer(Main.plugin,
+				timer, 0L, 1L);
 		timer.setTask(task);
 	}
 
@@ -55,7 +56,9 @@ public class GunHandler {
 			reload(p, gun.reloadTime);
 
 			final Set<Material> transparent = new HashSet<Material>();
-			transparent.add(Material.AIR); // Materials that are considered transparent and you can shoot through
+			transparent.add(Material.AIR); // Materials that are considered
+											// transparent and you can shoot
+											// through
 			transparent.add(Material.WATER);
 			transparent.add(Material.SIGN);
 			transparent.add(Material.WALL_SIGN);
@@ -68,7 +71,8 @@ public class GunHandler {
 
 			final List<Block> blocks = p.getLineOfSight(transparent, distance);
 
-			final List<Entity> entities = p.getNearbyEntities(distance, distance, distance);
+			final List<Entity> entities = p.getNearbyEntities(distance,
+					distance, distance);
 
 			for (int i = 0; i < entities.size(); i++) {
 				Entity en = entities.get(i);
@@ -90,17 +94,12 @@ public class GunHandler {
 				}
 
 				for (final Entity en : entities) {
-					if (en.getLocation().distance(b.getLocation()) < 1 || (en instanceof Player && ((Player) en).getEyeLocation().distance(b.getLocation()) < 1)) {
+					if (en.getLocation().distance(b.getLocation()) < 1
+							|| (en instanceof Player && ((Player) en)
+									.getEyeLocation().distance(b.getLocation()) < 1)) {
 						((LivingEntity) en).setHealth(0);
 
-						final Firework fw = (Firework) b.getWorld().spawnEntity(b.getLocation(), EntityType.FIREWORK);
-						final FireworkMeta fwm = fw.getFireworkMeta();
-						final Type type = Type.BURST;
-						final Color color = Color.MAROON;
-						final FireworkEffect effect = FireworkEffect.builder().withColor(color).flicker(true).with(type).trail(true).build();
-						fwm.addEffect(effect);
-						fwm.setPower(1);
-						fw.setFireworkMeta(fwm);
+						QuakeEffects.gunDeath(en.getLocation());
 						return;
 					}
 				}
@@ -134,16 +133,16 @@ public class GunHandler {
 			this.task = task;
 		}
 	}
-	
+
 	public static void breakBlocks(Block b) {
 		Material m = b.getType();
-		
+
 		List<BlockFace> faces = new ArrayList<BlockFace>();
 		faces.add(BlockFace.UP);
 		faces.add(BlockFace.DOWN);
 		faces.add(BlockFace.EAST);
 		faces.add(BlockFace.WEST);
-		
+
 		for (BlockFace face : faces) {
 			Block b1 = b.getRelative(face);
 			if (b1.getType() == m) {
